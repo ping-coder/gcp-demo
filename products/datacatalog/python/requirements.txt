@@ -1,0 +1,2 @@
+google-cloud-datacatalog==3.19.0
+google-cloud-bigquery_datapolicies==0.6.6
