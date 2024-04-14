@@ -1,0 +1,8 @@
+base: 
+  - project_id: default
+  - location: us
+
+taxonomy:
+  - name: Gaming Demo
+    #id: if it's no id, will create a new taxonomy.
+    
