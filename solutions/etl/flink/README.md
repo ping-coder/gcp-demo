@@ -9,9 +9,9 @@
 - code: https://github.com/ping-coder/gcp-demo/solutions/etl/flink/
 - Dataproc 2.1 (optional components - flink and hudi)
 - Flink libaries:
-- - Flink mysql cdc jar: [flink-sql-connector-mysql-cdc-2.4.0.jar]{https://repo1.maven.org/maven2/com/ververica/flink-sql-connector-mysql-cdc/2.4.0/flink-sql-connector-mysql-cdc-2.4.0.jar}
-- - Flink hudi bundler: [hudi-flink1.15-bundle-0.13.1.jar]{https://repo1.maven.org/maven2/org/apache/hudi/hudi-flink1.15-bundle/0.13.1/hudi-flink1.15-bundle-0.13.1.jar}
-- - gcs connector: [gcs-connector-hadoop3-2.2.16.jar]{https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.16/gcs-connector-hadoop3-2.2.16-shaded.jar}
+  - Flink mysql cdc jar: [flink-sql-connector-mysql-cdc-2.4.0.jar]{https://repo1.maven.org/maven2/com/ververica/flink-sql-connector-mysql-cdc/2.4.0/flink-sql-connector-mysql-cdc-2.4.0.jar}
+  - Flink hudi bundler: [hudi-flink1.15-bundle-0.13.1.jar]{https://repo1.maven.org/maven2/org/apache/hudi/hudi-flink1.15-bundle/0.13.1/hudi-flink1.15-bundle-0.13.1.jar}
+  - gcs connector: [gcs-connector-hadoop3-2.2.16.jar]{https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop3-2.2.16/gcs-connector-hadoop3-2.2.16-shaded.jar}
 - Dataproc Flink component doc: https://cloud.google.com/dataproc/docs/concepts/components/flink
 
 ## Data source
