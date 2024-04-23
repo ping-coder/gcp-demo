@@ -1,0 +1,6 @@
+**/*_key.json
+
+**/.idea/*
+**/target/*
+**/.*/*
+*.DS_Store
