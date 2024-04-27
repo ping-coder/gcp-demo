@@ -45,7 +45,15 @@ def run(
         data_policy_type=data_policy.data_policy_type,
         predefined_expression=types.DataMaskingPolicy.PredefinedExpression.ALWAYS_NULL
     )
-    print(f"[sample] Updateed the data policy: \r\n{new_data_policy}")
+    # update the data policy to 
+    new_data_policy = d_client.update(
+        name=data_policy.name,
+        policy_tag=data_policy.policy_tag,
+        data_policy_type=data_policy.data_policy_type,
+        # routine="projects/ieeg-dlp-demo/datasets/pii_demo/routines/iegg_masking_routine1"
+        routine="projects/peace-demo/datasets/demo/routines/SSN_Mask"
+    )
+    print(f"[sample] Updated the data policy: \r\n{new_data_policy}")
 
     # create or get the account table.
     

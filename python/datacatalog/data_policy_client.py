@@ -101,7 +101,8 @@ def update(
     data_policy.data_policy_type = data_policy_type
     data_policy.name = name
     data_policy.policy_tag = policy_tag
-    if(not routine and routine is not None):
+    print(f"routine: {routine}, '{not routine}' and '{routine is not None}'")
+    if(routine is not None):
         data_policy.data_masking_policy.routine = routine
     else:
         data_policy.data_masking_policy.predefined_expression = predefined_expression
