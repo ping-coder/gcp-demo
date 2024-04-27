@@ -1,4 +1,4 @@
-package ping.code.meitu;
+package ping.code.sample;
 
 import com.google.api.core.ApiFuture;
 import com.google.api.core.ApiFutures;

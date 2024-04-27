@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package ping.code.meitu;
+package ping.code.sample;
 
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.auth.oauth2.ServiceAccountCredentials;
