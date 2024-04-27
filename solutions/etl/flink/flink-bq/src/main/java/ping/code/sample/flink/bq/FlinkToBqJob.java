@@ -4,7 +4,7 @@ package ping.code.sample.flink.bq;
  * Hello world!
  *
  */
-public class App 
+public class FlinkToBqJob 
 {
     public static void main( String[] args )
     {
