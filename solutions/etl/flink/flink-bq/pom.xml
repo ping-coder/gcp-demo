@@ -2,49 +2,61 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>ping.code.sample.flink.bq</groupId>
-  <artifactId>flink-bq</artifactId>
-  <version>1.0-SNAPSHOT</version>
+	<groupId>ping.code.sample.flink.bq</groupId>
+	<artifactId>flink-bq</artifactId>
+	<version>1.0-SNAPSHOT</version>
 
-  <name>flink-bq</name>
+	<name>flink-bq</name>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-		<flink.version>1.15.3</flink.version>
-  </properties>
+	<properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<maven.compiler.source>1.8</maven.compiler.source>
+	<maven.compiler.target>1.8</maven.compiler.target>
+		<flink.version>1.17.1</flink.version>
+	</properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-table-api-java-bridge</artifactId>
-        <version>${flink.version}</version>
-        <scope>provided</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-table</artifactId>
-        <version>${flink.version}</version>
-        <type>pom</type>
-        <scope>provided</scope>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.flink</groupId>
-        <artifactId>flink-table-common</artifactId>
-        <version>${flink.version}</version>
-        <type>pom</type>
-        <scope>provided</scope>
-    </dependency>
-    <dependency>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>libraries-bom</artifactId>
+			<version>26.37.0</version>
+			<type>pom</type>
+			<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-table-api-java-bridge</artifactId>
+			<version>${flink.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-table</artifactId>
+			<version>${flink.version}</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-table-common</artifactId>
+			<version>${flink.version}</version>
+			<type>pom</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.flink</groupId>
 			<artifactId>flink-java</artifactId>
 			<version>${flink.version}</version>
@@ -68,12 +80,80 @@
 			<version>${flink.version}</version>
 			<scope>provided</scope>
 		</dependency>
-  </dependencies>
+		<dependency>
+			<groupId>org.apache.flink</groupId>
+			<artifactId>flink-connector-datagen</artifactId>
+			<version>${flink.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.cloud</groupId>
+			<artifactId>google-cloud-bigquerystorage</artifactId>
+		</dependency>
+	</dependencies>
 
-  <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
-      <plugins>
-      </plugins>
-    </pluginManagement>
-  </build>
+	<build>
+		<plugins>
+			<!-- We use the maven-shade plugin to create a fat jar that contains all necessary dependencies. -->
+			<!-- Change the value of <mainClass>...</mainClass> if your program entry point changes. -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<!-- Run shade goal on package phase -->
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<excludes>
+									<exclude>org.apache.flink:force-shading</exclude>
+									<exclude>com.google.code.findbugs:jsr305</exclude>
+									<exclude>org.slf4j:*</exclude>
+									<exclude>log4j:*</exclude>
+								</excludes>
+							</artifactSet>
+							<filters>
+								<filter>
+									<!-- Do not copy the signatures in the META-INF folder.
+									Otherwise, this might cause SecurityExceptions when using the JAR. -->
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+							</filters>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>ping.code.sample.flink.bq.SimpleFlinkToBqJob</mainClass>
+								</transformer>
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- 复制依赖 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<!-- 依赖包 输出目录 -->
+							<outputDirectory>${project.build.directory}/pack/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
