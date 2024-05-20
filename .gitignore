@@ -1,0 +1,9 @@
+**/*_key.json
+
+**/.idea/*
+**/target/*
+**/.*/*
+**/.DS_Store
+
+**/__pycache__/*
+**/target/*

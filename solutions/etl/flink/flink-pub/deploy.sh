@@ -1,0 +1,1 @@
+sudo flink run flink-pubsub-1.0-SNAPSHOT.jar
