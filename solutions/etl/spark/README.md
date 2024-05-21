@@ -12,7 +12,7 @@ spark-sql --packages org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.4.3
 or  
 upload ./lib/iceberg-spark-runtime-3.3_2.12-1.4.3.jar to /usr/lib/spark/jars/  
 or  
-edit file '/usr/lib/spark/conf/spark-defaults.conf'  
+edit file '/usr/lib/spark/conf/spark-defaults.conf' and upload ./lib/iceberg-spark-runtime-3.3_2.12-1.4.3.jar to /usr/lib/iceberg/lib/  
 ```conf
 spark.driver.extraClassPath=/usr/lib/hudi/lib/hudi-spark3.3-bundle_2.12-0.12.3.1.jar:/usr/lib/iceberg/lib/iceberg-spark-runtime-3.3_2.12-1.4.3.jar
 spark.executor.extraClassPath=/usr/lib/hudi/lib/hudi-spark3.3-bundle_2.12-0.12.3.1.jar:/usr/lib/iceberg/lib/iceberg-spark-runtime-3.3_2.12-1.4.3.jar
