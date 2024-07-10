@@ -1,5 +1,6 @@
 from google.cloud import bigquery_datatransfer
 from google.protobuf import field_mask_pb2
+from google.protobuf.timestamp_pb2 import Timestamp
 
 transfer_client = bigquery_datatransfer.DataTransferServiceClient()
 
@@ -27,7 +28,7 @@ parent = transfer_client.common_location_path(project_id, "us")
 # parent = transfer_client.common_project_path(project_id)
 
 transfer_config = bigquery_datatransfer.TransferConfig(
-    name = "projects/642598805451/locations/us/transferConfigs/663bd0e9-0000-2d85-b211-582429afd714",
+    name = "projects/642598805451/locations/us/transferConfigs/66734380-0000-293d-aec6-582429adc414",
     # destination_dataset_id=dataset_id,
     display_name="Test Scheduled Query Name",
     data_source_id="scheduled_query",
@@ -47,4 +48,16 @@ transfer_config = transfer_client.update_transfer_config(
     )
 )
 
-print("Created scheduled query '{}'".format(transfer_config.name))
+print("Updated scheduled query '{}'".format(transfer_config.name))
+
+now = Timestamp()
+now.GetCurrentTime()
+response = transfer_client.start_manual_transfer_runs(
+    request=bigquery_datatransfer.StartManualTransferRunsRequest(
+        parent="projects/642598805451/locations/us/transferConfigs/66734380-0000-293d-aec6-582429adc414",
+        requested_run_time=now
+    )
+)
+
+# Handle the response
+print(response)
